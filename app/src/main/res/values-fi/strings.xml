@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">JanuaryTrainingProject</string>
+    <string name="hello_maailma">Hei Maailma!</string>
+    <string name="increase">Lisää</string>
+    <string name="decrease">Vähennä</string>
+</resources>
