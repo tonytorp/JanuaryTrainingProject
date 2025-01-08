@@ -11,7 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -22,13 +24,16 @@ import androidx.compose.ui.unit.sp
 // Headerilla on taustaväri ja teksti, jonka se saa parametrina
 @Composable
 fun Header( title: String ){
+    val screenHeight = LocalConfiguration.current.screenHeightDp
+    val textHeight = screenHeight * 0.15f
     Text(
         text = title,
         fontSize = 50.sp, // Bigger font size,
         modifier = Modifier.fillMaxWidth()
-            .height(100.dp)
+            .height(textHeight.dp)
+            .clip(RoundedCornerShape(50.dp))
             .background(Color.Yellow)
-            .border( 3.dp, Color.Black, RoundedCornerShape(20.dp))
+            .border( 3.dp, Color.Black, RoundedCornerShape(50.dp))
             .wrapContentSize(Alignment.Center)
     )
 }
