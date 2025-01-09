@@ -20,7 +20,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MyApp();
+            DeviceApiDemo();
+            // MyApp();
         }
         // avataan web-sivu
         //val uri = URI("https://www.google.com")

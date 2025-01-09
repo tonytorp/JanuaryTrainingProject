@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.AlarmClock
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -30,6 +31,7 @@ fun DetailScreen(navController: NavHostController, counterViewModel: CounterView
         }
         Button(onClick = {
             startTimer( context, "Time is up", 10);
+            Toast.makeText( context, "Timer started", Toast.LENGTH_SHORT).show();
         }) {
             Text("Start 10 sec timer", fontSize = 30.sp)
         }
@@ -37,18 +39,20 @@ fun DetailScreen(navController: NavHostController, counterViewModel: CounterView
         Button(onClick = { navController.popBackStack() }) {
             Text("Back", fontSize = 30.sp)
         }
+        ListExample()
     }
 }
-
+// Vaatii manifestiin: <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 fun startTimer( context: Context, message: String, seconds: Int ){
-    val intent = Intent(AlarmClock.ACTION_SET_TIMER).apply {
-        putExtra(AlarmClock.EXTRA_MESSAGE, message)
-        putExtra(AlarmClock.EXTRA_LENGTH, seconds)
-        putExtra(AlarmClock.EXTRA_SKIP_UI, true)
-    }
+    val intent = Intent(AlarmClock.ACTION_SET_TIMER);
+    intent.putExtra(AlarmClock.EXTRA_MESSAGE, message)
+    intent.putExtra(AlarmClock.EXTRA_LENGTH, seconds)
+    intent.putExtra(AlarmClock.EXTRA_SKIP_UI, true)
+
+
     try {
         context.startActivity(intent)
-    } catch (e: ActivityNotFoundException) {
+    } catch (e: Exception) { // Voi tulla ActivityNotFoundException tai SecurityException
         e.printStackTrace()
     }
 }

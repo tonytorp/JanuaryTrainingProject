@@ -1,0 +1,71 @@
+package com.example.januarytrainingproject
+
+import android.app.Application
+import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
+import android.util.Log
+import android.widget.Toast
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+
+@Composable
+fun DeviceApiDemo( sensorViewModel: SensorViewModel = viewModel() ){
+
+    Button(onClick = { sensorViewModel.listAllSensors() })
+    {
+        Text("List all sensors", fontSize = 40.sp)
+    };
+    Button(onClick = { sensorViewModel.startListeningAccelerometer() })
+    {
+        Text("Start Accelerometer", fontSize = 40.sp)
+    };
+}
+// Toteutetaan ViewModel, joka kytkeytyy kuuntelemaan kiihtyvyysanturin lukemia
+// Lukemat välitetään käyttöliittymälle ns. Flowna
+class SensorViewModel( context: Application ) : AndroidViewModel( context ), SensorEventListener {
+    val sensorManager = context.getSystemService( Context.SENSOR_SERVICE ) as SensorManager
+
+    fun startListeningAccelerometer() {
+        // Haetaan kiihtyvyysanturi ja rekisteröidytään kuuntelemaan eventtejä
+        val accelerometer = sensorManager.getDefaultSensor( Sensor.TYPE_ACCELEROMETER )
+        if( accelerometer != null ){
+            sensorManager.registerListener( this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+    }
+    override fun onSensorChanged(p0: SensorEvent?) {
+        Log.d("ACCELEROMETER_VALUE", "X: ${p0?.values?.get(0)}")
+    }
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
+
+    }
+
+    fun listAllSensors() {
+        // Tutkitaan, mitä sensoreita laitteessa on. Otetaan yhteys SensorManageriin
+        val sensors = sensorManager.getSensorList( Sensor.TYPE_ALL )
+        for( sensor in sensors ){
+            Toast.makeText( getApplication(), sensor.toString(), Toast.LENGTH_SHORT ).show()
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
