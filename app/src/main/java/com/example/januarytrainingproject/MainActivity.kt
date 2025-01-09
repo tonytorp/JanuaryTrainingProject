@@ -22,6 +22,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyApp();
         }
+        // avataan web-sivu
+        //val uri = URI("https://www.google.com")
+        //val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri.toString()))
+
     }
     override fun onStart(){
         super.onStart();
@@ -42,6 +46,7 @@ class MainActivity : ComponentActivity() {
 fun MyApp() {
     val navController = rememberNavController()
     val counterViewModel: CounterViewModel = viewModel()
+
     NavHost( navController = navController, startDestination = "home") {
         // Luodaan screenit, joille välitetään navController sekä viewModel
         composable("home"){

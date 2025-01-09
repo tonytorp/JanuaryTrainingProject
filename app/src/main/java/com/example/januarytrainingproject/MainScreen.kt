@@ -51,7 +51,7 @@ fun MainScreen(navController: NavHostController, counterViewModel: CounterViewMo
         horizontalAlignment = Alignment.CenterHorizontally,
 
         ) {
-        Header( "Oma sovellus")
+        Header( "Oma sovellus ${counterViewModel.count}")
         TextField(
             value = name,
             onValueChange = { newName -> name = newName },
