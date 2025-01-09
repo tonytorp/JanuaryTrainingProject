@@ -8,28 +8,38 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun DeviceApiDemo( sensorViewModel: SensorViewModel = viewModel() ){
+    val sensorData = sensorViewModel.accelorometerValues.collectAsState();
 
-    Button(onClick = { sensorViewModel.listAllSensors() })
-    {
-        Text("List all sensors", fontSize = 40.sp)
-    };
-    Button(onClick = { sensorViewModel.startListeningAccelerometer() })
-    {
-        Text("Start Accelerometer", fontSize = 40.sp)
-    };
+    Column {
+        Text ("Sensor X: ${sensorData.value}", fontSize = 30.sp)
+
+        Button(onClick = { sensorViewModel.listAllSensors() })
+        {
+            Text("List all sensors", fontSize = 40.sp)
+        };
+        Button(onClick = { sensorViewModel.startListeningAccelerometer() })
+        {
+            Text("Start Accelerometer", fontSize = 40.sp)
+        };
+    }
 }
 // Toteutetaan ViewModel, joka kytkeytyy kuuntelemaan kiihtyvyysanturin lukemia
 // Lukemat välitetään käyttöliittymälle ns. Flowna
 class SensorViewModel( context: Application ) : AndroidViewModel( context ), SensorEventListener {
+    val accelorometerValues = MutableStateFlow( 0f );
+
     val sensorManager = context.getSystemService( Context.SENSOR_SERVICE ) as SensorManager
 
     fun startListeningAccelerometer() {
@@ -40,10 +50,13 @@ class SensorViewModel( context: Application ) : AndroidViewModel( context ), Sen
         }
     }
     override fun onSensorChanged(p0: SensorEvent?) {
-        Log.d("ACCELEROMETER_VALUE", "X: ${p0?.values?.get(0)}")
+        if( p0 != null ){
+            val x = p0.values[0]
+            // Asetetaan uusi x: arvo Flow'hun
+            accelorometerValues.value = x
+        }
     }
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
-
     }
 
     fun listAllSensors() {
