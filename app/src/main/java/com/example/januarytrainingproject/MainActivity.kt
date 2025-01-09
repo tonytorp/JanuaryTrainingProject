@@ -19,6 +19,8 @@ import kotlinx.coroutines.joinAll
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Sovelluksen käynnistyessä pyydetään lupa lokaation käyttöön
+        requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 0)
         setContent {
             DeviceApiDemo();
             // MyApp();
