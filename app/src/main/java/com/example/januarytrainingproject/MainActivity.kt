@@ -4,13 +4,23 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.joinAll
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            // Tässä määritellään, mitä näytöllä näkyy (Material UI Composablet)
-           MainScreen();
+            MyApp();
         }
     }
     override fun onStart(){
@@ -28,8 +38,33 @@ class MainActivity : ComponentActivity() {
     // Lisäksi on funktiot onPause ja onResume, jotka voidaan ylikirjoittaa
 }
 
+@Composable
+fun MyApp() {
+    val navController = rememberNavController()
+    val counterViewModel: CounterViewModel = viewModel()
+    NavHost( navController = navController, startDestination = "home") {
+        // Luodaan screenit, joille välitetään navController sekä viewModel
+        composable("home"){
+            MainScreen(navController, counterViewModel)
+        }
+        composable("detail"){
+            DetailScreen(navController, counterViewModel)
+        }
+    }
+}
 
 
+class CounterViewModel : ViewModel() {
+    var count by mutableIntStateOf(0)
+        private set
+
+    fun increment() {
+        count++
+    }
+    fun decrement() {
+        count--
+    }
+}
 
 
 

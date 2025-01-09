@@ -34,14 +34,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 
 // Projekti löytyy gitistä
 // https://github.com/tonytorp/JanuaryTrainingProject
 
-@Preview
+
 @Composable
-fun MainScreen(){
-    var counter by rememberSaveable { mutableIntStateOf(0) };
+fun MainScreen(navController: NavHostController, counterViewModel: CounterViewModel ){
     var name by remember { mutableStateOf("")};
     Column(
         modifier = Modifier
@@ -60,15 +60,17 @@ fun MainScreen(){
         )
         Spacer(modifier = Modifier.height(30.dp))
         Text(
-            text = "Counter: $counter",
+            // Luetaan counterin arvo viewModelista (aiemmin rememberSaveable
+            text = "Counter: ${counterViewModel.count}",
             fontSize = 40.sp,
         )
 
         Spacer(modifier = Modifier.height(100.dp))
         Row(modifier = Modifier.padding(16.dp)) {
             Button(onClick = {
-                counter++
-                Log.d("COUNTER", "Counter: $counter")
+                // Laskurin päivitys tapahtuu nyt viewModelin julkisten metodien
+                // increment ja decrement kautta
+                counterViewModel.increment();
             }) {
                 Icon(
                     imageVector = Icons.Filled.Add,
@@ -79,7 +81,7 @@ fun MainScreen(){
                 Text(stringResource(R.string.increase))
             }
             Spacer( modifier = Modifier.width(40.dp))
-            Button(onClick={ counter-- }) {
+            Button(onClick={ counterViewModel.decrement() }) {
                 Text(stringResource(R.string.decrease))
             }
         }
@@ -88,6 +90,12 @@ fun MainScreen(){
             contentDescription = "My Car",
             modifier = Modifier.size(200.dp).clip(CircleShape)
         )
+        // Lisätään button, jolla voi navigoida detail -näyttöön
+        Button(onClick = { navController.navigate("detail") }) {
+            Text(text = "Go to Details")
+        }
+
 
     }
 }
+
