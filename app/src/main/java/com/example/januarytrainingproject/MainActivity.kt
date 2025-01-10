@@ -19,28 +19,26 @@ import kotlinx.coroutines.joinAll
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Sovelluksen käynnistyessä pyydetään lupa lokaation käyttöön
+        // Sovelluksen käynnistyessä pyydetään lupa lokaation käyttöön (dialogi näkyy vain, jos lupa jo on)
         requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 0)
         setContent {
-            DeviceApiDemo();
-            // MyApp();
+            DeviceApiDemo()
+            //MyApp();
+            //TodoScreen(); // RetrofitDemo
         }
-        // avataan web-sivu
-        //val uri = URI("https://www.google.com")
-        //val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri.toString()))
 
     }
     override fun onStart(){
-        super.onStart();
-        Log.d("MY_ACTIVITY", "onStart");
+        super.onStart()
+        Log.d("MY_ACTIVITY", "onStart")
     }
     override fun onStop() {
-        super.onStop();
-        Log.d("MY_ACTIVITY", "onStop");
+        super.onStop()
+        Log.d("MY_ACTIVITY", "onStop")
     }
     override fun onDestroy() {
-        super.onDestroy();
-        Log.d("MY_ACTIVITY", "onDestroy");
+        super.onDestroy()
+        Log.d("MY_ACTIVITY", "onDestroy")
     }
     // Lisäksi on funktiot onPause ja onResume, jotka voidaan ylikirjoittaa
 }
@@ -51,7 +49,7 @@ fun MyApp() {
     val counterViewModel: CounterViewModel = viewModel()
 
     NavHost( navController = navController, startDestination = "home") {
-        // Luodaan screenit, joille välitetään navController sekä viewModel
+        // Luodaan screenit, joille välitetään tällä tasolla luotu navController sekä viewModel
         composable("home"){
             MainScreen(navController, counterViewModel)
         }

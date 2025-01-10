@@ -42,7 +42,7 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun MainScreen(navController: NavHostController, counterViewModel: CounterViewModel ){
-    var name by remember { mutableStateOf("")};
+    var name by remember { mutableStateOf("")}
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -70,7 +70,7 @@ fun MainScreen(navController: NavHostController, counterViewModel: CounterViewMo
             Button(onClick = {
                 // Laskurin päivitys tapahtuu nyt viewModelin julkisten metodien
                 // increment ja decrement kautta
-                counterViewModel.increment();
+                counterViewModel.increment()
             }) {
                 Icon(
                     imageVector = Icons.Filled.Add,

@@ -25,13 +25,13 @@ fun DetailScreen(navController: NavHostController, counterViewModel: CounterView
         Text("Counter value is: ${counterViewModel.count}", fontSize = 30.sp)
 
         Button(onClick = {
-            openWebPage(context, "https://www.google.com");
+            openWebPage(context, "https://www.google.com")
         }) {
             Text("Open Google", fontSize = 30.sp)
         }
         Button(onClick = {
-            startTimer( context, "Time is up", 10);
-            Toast.makeText( context, "Timer started", Toast.LENGTH_SHORT).show();
+            startTimer( context, "Time is up", 10)
+            Toast.makeText( context, "Timer started", Toast.LENGTH_SHORT).show()
         }) {
             Text("Start 10 sec timer", fontSize = 30.sp)
         }
@@ -44,7 +44,7 @@ fun DetailScreen(navController: NavHostController, counterViewModel: CounterView
 }
 // Vaatii manifestiin: <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 fun startTimer( context: Context, message: String, seconds: Int ){
-    val intent = Intent(AlarmClock.ACTION_SET_TIMER);
+    val intent = Intent(AlarmClock.ACTION_SET_TIMER)
     intent.putExtra(AlarmClock.EXTRA_MESSAGE, message)
     intent.putExtra(AlarmClock.EXTRA_LENGTH, seconds)
     intent.putExtra(AlarmClock.EXTRA_SKIP_UI, true)
